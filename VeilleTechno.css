@@ -1,0 +1,58 @@
+body { 
+    margin: 0; 
+    font-family: 'Be Vietnam Pro';
+  }
+  #main{
+    padding: 0!important;
+  }
+  canvas { 
+    width: 200px; height: 100px; display: block;
+  }
+
+  #sticky-sidebar {
+    background-color: #f44336;
+    padding-left: 50px;
+    padding-top: 50px;
+    color: white!important;
+    font-weight: bold!important;
+  }
+  h1{
+    margin-top: 25px!important;
+  }
+  ul{
+    margin-top: 70px;
+  }
+
+  #content{
+    padding: 20px;
+  }
+  .sticky-top a {
+    color: white!important;
+    font-weight: bold!important;
+  }
+
+  code{
+    border-radius: 16px;
+  }
+
+  
+  .sub-title{
+    background-color: #f44336;
+    height: 10px;
+    width: 50px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+  }
+
+  .lib-logo{
+    height: 70px;
+  }
+
+  h2{
+    margin-top: 45px;
+  }
+
+  img{
+    height: 170px;
+    margin: 15px;
+  }

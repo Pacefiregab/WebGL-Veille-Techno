@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>WebGL Veille Techo</title>
+        <script
+            src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+        <script
+            src="https://webglfundamentals.org/webgl/lessons/resources/3d-math.js"></script>
+        <!-- vertex shader -->
+        <script id="2d-vertex-shader" type="x-shader/x-vertex">
+                attribute vec4 a_position;
+                uniform mat4 u_worldViewProjection;
+                
+                void main() {
+                    gl_Position = u_worldViewProjection * a_position;
+                }
+            </script>
+        <!-- fragment shader -->
+        <script id="2d-fragment-shader" type="x-shader/x-fragment">
+                void main() {
+                    gl_FragColor = vec4(0,0,0,1);
+                }
+            </script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+            crossorigin="anonymous">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Be+Vietnam+Pro">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/atom-one-dark.min.css">
+        <script src="VeilleTechno.js"></script>
+        <link rel="stylesheet" href="VeilleTechno.css">
+    </head>
+
+    <body onload="start()">
+        <div class="container row py-3" id="main">
+            <div class="col-3" id="sticky-sidebar">
+                <div class="sticky-top">
+                    <h1>WebGL Veille Techno</h1>
+                    par Gabin CHARASSON
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#introduction">Introduction</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#OpenGL">OpenGL</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#WebGL">WebGL</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#utilisations">Utilisations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#exemples">Exemples</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#3d">En 3d</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#librairies">Librairies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#WebGPU">WebGPU</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col" id="content">
+
+                <div class="container" id="introduction">
+                    <h2>WebGL KESSECÉ ?</h2>
+                    <div class="sub-title"> </div>
+                    <div class="d-flex justify-content-center"><img
+                            src="images/images.png" alt="WebGl-Logo"></div>
+                    <p>
+                        WebGL est une API JavaScript qui permet d’utiliser la
+                        librairie
+                        graphique d’OpenGL pour créer des graphismes et
+                        visualisations
+                        3D
+                        interactifs dans un navigateur. Elle est basée sur la
+                        version
+                        OpenGL
+                        ES 2.0, qui est une version simplifiée d’OpenGL conçue
+                        spéciquement
+                        pour les appareils portables (tablettes, smartphones…)
+                    </p>
+                </div>
+
+                <div class="container" id="OpenGL">
+
+                    <h2>Mais du coup KÉCESSÉ OpenGL ?</h2>
+                    <div class="sub-title"> </div>
+                    <div class="d-flex justify-content-center"><img
+                            src="images/images (1).png" alt="OpenGL-Logo"></div>
+                    <p>
+                        OpenGL est une API multilingue et multiplateforme pour
+                        le
+                        rendu
+                        graphique de vecteurs 2D et 3D. Elle est généralement
+                        utilisée
+                        pour
+                        créer des graphiques de haute qulité pour les jeux vidéo
+                        et
+                        d’autres
+                        applications visuellement intenses.
+                    </p>
+                    <p>
+                        À un niveau élevé, OpenGL fonctionne en permettant au
+                        programmeur de
+                        spécifier les objets et les opérations nécessaires pour
+                        produire
+                        une
+                        image finale, qui est ensuite rendue par le matériel
+                        graphique
+                        de
+                        l'ordinateur. Cela signifie que le programmeur peut se
+                        concentrer
+                        sur la conception globale des graphiques, sans avoir à
+                        se
+                        soucier
+                        des détails de la manière dont les graphiques sont
+                        réellement
+                        dessinés à l'écran.
+                    </p>
+                    <p>
+                        OpenGL est conçu pour être indépendant du matériel
+                        sous-jacent,
+                        il
+                        peut donc être utilisé sur une grande variété
+                        d'appareils, y
+                        compris
+                        les ordinateurs de bureau, les ordinateurs portables,
+                        les
+                        téléphones
+                        portables et les consoles de jeux. Cela en fait un outil
+                        très
+                        polyvalent pour la programmation graphique.
+                    </p>
+                    <p>
+                        Pour utiliser OpenGL, le programmeur doit d'abord créer
+                        une
+                        fenêtre
+                        dans laquelle les graphiques seront dessinés. Cela se
+                        fait
+                        généralement à l'aide d'une boîte à outils telle que
+                        GLFW ou
+                        SDL.
+                        Une fois la fenêtre créée, le programmeur peut utiliser
+                        les
+                        fonctions OpenGL pour définir les objets et les
+                        opérations
+                        qui
+                        seront utilisés pour générer l'image finale.
+                    </p>
+                    <p>
+                        Par exemple, le programmeur peut spécifier un modèle 3D
+                        d'une
+                        voiture
+                        et sa position dans le monde, ainsi que les conditions
+                        d'éclairage,
+                        la position et l'orientation de la caméra. OpenGL se
+                        chargera
+                        ensuite de rendre la scène, en utilisant le matériel
+                        graphique
+                        de
+                        l'ordinateur pour produire une image finale qui
+                        s'affiche
+                        dans
+                        la
+                        fenêtre.
+                    </p>
+                    <p>
+                        Dans l'ensemble, OpenGL est un outil important pour tout
+                        informaticien qui souhaite créer des graphiques de haute
+                        qualité
+                        pour ses applications. Il s'agit d'une API puissante et
+                        flexible
+                        qui
+                        peut être utilisée pour créer une large gamme de
+                        graphiques
+                        visuellement impressionnants, ce qui en fait un outil
+                        essentiel
+                        pour
+                        de nombreux domaines, notamment les jeux informatiques,
+                        la
+                        réalité
+                        virtuelle et la visualisation.
+                    </p>
+                </div>
+
+                <div class="container" id="WebGL">
+
+                    <h2>Plus sur WebGL (Quand même c’est le sujet de la veille)</h2>
+                    <div class="sub-title"> </div>
+                    <p>
+                        Comme OpenGL, WebGL permet au programmeur de spécifier
+                        les
+                        objets et
+                        les opérations nécessaires pour produire une image
+                        finale,
+                        qui
+                        est
+                        ensuite rendue par le matériel graphique de
+                        l'ordinateur.
+                    </p>
+                    <p>
+                        L'une des principales différences entre OpenGL et WebGL
+                        est
+                        que
+                        WebGL
+                        est conçu pour être utilisé dans un navigateur Web, ce
+                        qui
+                        signifie
+                        qu'il peut être utilisé pour créer des graphiques
+                        interactifs
+                        qui
+                        s'affichent sur une page Web. Cela en fait un outil
+                        utile
+                        pour
+                        créer
+                        une large gamme de visualisations interactives, telles
+                        que
+                        des
+                        graphiques 3D, des cartes et des simulations
+                        scientifiques.</p>
+                    <p>
+                        Une autre différence importante, déjà évoquée
+                        précédement,
+                        entre
+                        les
+                        deux est que WebGL est basé sur la spécification OpenGL
+                        ES
+                        2.0.
+                        Cela
+                        signifie que WebGL est généralement moins puissant
+                        qu'OpenGL,
+                        mais
+                        il est également plus largement pris en charge, car il
+                        peut
+                        être
+                        utilisé sur une large gamme d'appareils, y compris les
+                        smartphones
+                        et les tablettes.
+                    </p>
+                </div>
+                <div class="container" id="utilisations">
+
+                    <h2>Quelques exemples d’utilisations de WebGL :</h2>
+                    <div class="sub-title"> </div>
+                    <ol>
+                        <li>
+                            Google Maps : la fonctionnalité de cartes 3D de
+                            Google
+                            Maps
+                            utilise
+                            WebGL pour restituer le terrain et les bâtiments en
+                            3D.
+                        </li>
+                        <li>
+                            Sketchfab : Sketchfab est une plate-forme de
+                            publication
+                            et
+                            de
+                            partage
+                            de modèles 3D, qui utilise WebGL pour le rendu des
+                            modèles
+                            dans
+                            le
+                            navigateur.
+                        </li>
+                        <li>
+                            Discord : la version de bureau de Discord utilise
+                            WebGL
+                            pour
+                            rendre
+                            l'interface utilisateur et certains des effets
+                            visuels.
+                        </li>
+                        <li>
+                            Autodesk Fusion 360 : Autodesk Fusion 360 est un
+                            logiciel de
+                            modélisation et de conception 3D qui utilise WebGL
+                            pour
+                            le
+                            rendu
+                            des
+                            modèles 3D dans le navigateur.
+                        </li>
+                        <li>
+                            Google Photos : la fonctionnalité "Styles" de Google
+                            Photos
+                            utilise
+                            WebGL pour appliquer divers filtres artistiques aux
+                            images.
+                        </li>
+                        <li>
+                            Trello : L'outil de gestion de projet de style
+                            Kanban
+                            Trello
+                            utilise
+                            WebGL pour le rendu des cartes 3D et des
+                            arrière-plans
+                            dans
+                            l'interface
+                            utilisateur.
+                        </li>
+                        <li>
+                            HexGL : HexGL est un jeu de course futuriste en 3D
+                            qui
+                            démontre
+                            les
+                            capacités de WebGL.
+                        </li>
+                    </ol>
+                    <p>
+                        Ce ne sont que quelques exemples, mais il existe de
+                        nombreuses
+                        autres
+                        applications et jeux qui utilisent WebGL pour fournir
+                        des
+                        graphiques
+                        3D
+                        interactifs dans le navigateur.
+                    </p>
+                </div>
+
+                <div class="container" id="exemples">
+                    <h2>Et si on faisait des cubes !!!</h2>
+                    <div class="sub-title"> </div>
+                    <div>
+                        <p>Voici le résultat que l'on souhaite obtenir (eh oui,
+                            c'est super impressionnant):</p>
+
+                        <div class="d-flex justify-content-center">
+                            <canvas id="squareCanvas"></canvas>
+                        </div>
+
+                        Les sommets du carré sont définis dans le tableau
+                        <code>squareVertices</code> sous la forme de coordonnées
+                        x, y, z.
+                        Dans ce cas, chaque sommet est défini par 3 valeurs
+                        flottantes. Chaque triplet de valeurs flottantes
+                        correspond à une coordonnée x, y, z de chaque sommet du
+                        carré.
+
+                        Les indices des sommets sont définis dans le tableau
+                        <code> indices</code>. Ces indices indiquent l'ordre
+                        dans lequel les
+                        sommets doivent être connectés pour former les lignes du
+                        carré. Dans ce cas, chaque paire d'indices correspond à
+                        deux sommets qui doivent être connectés pour former une
+                        ligne. Par exemple, l'indice 0 est connecté à l'indice 1
+                        pour former la première ligne du carré.
+                        <pre>
+                            <code class="language-javascript">
+    // Define the vertices of the square
+    var squareVertices = [
+        -1, -1, -1,
+        1, -1, -1,
+        1, 1, -1,
+        -1, 1, -1,
+    ];
+
+    // Define the indices for the vertices to form the lines of the square
+    var indices = [
+        0, 1,
+        1, 2,
+        2, 3,
+        3, 0,
+    ];
+                            </code>
+                        </pre>
+                        <p>La méthode <code> getContext</code> de l'élément
+                            canvas est
+                            utilisée
+                            pour obtenir un contexte de dessin pour le canevas.
+                            Le paramètre "webgl" spécifie que le contexte de
+                            dessin WebGL doit être renvoyé. Il fournit les
+                            méthodes
+                            pour dessiner des formes, définir des couleurs,
+                            spécifier des transformations, etc. La méthode
+                            getContext renvoie un objet WebGLRenderingContext
+                            qui expose ces méthodes. <br><br>
+                            On vérifie ensuite si webgl est compatible avec le
+                            navigateur
+                            actuel:</p>
+                        <pre>
+            <code class="language-javascript">
+    // Get the canvas element and the WebGL context
+    var canvas = document.getElementById("squareCanvas");
+    var gl = canvas.getContext("webgl");
+
+    // If the WebGL context is not available, display an alert
+    if (!gl) {
+        alert("no webgl");
+        return;
+    }
+            </code>
+                        </pre>
+                        <p>On va ensuite créér un programme pour rendre des
+                            graphiques 2D en utilisant WebGL et le définit comme
+                            le programme actuel à utiliser. Le programme est
+                            créé en compilant et en reliant deux programmes de
+                            shaders : un vertex shader et un fragment shader. Le
+                            vertex shader est responsable de transformer les
+                            coordonnées 3D des sommets (points) de la forme en
+                            coordonnées 2D sur le canvas, et le fragment shader
+                            est responsable de remplir les pixels entre les
+                            sommets avec de la couleur.
+                            <br>
+                            <br>
+                            La fonction <code> createProgramFromScripts</code>
+                            prend en
+                            paramètre un contexte WebGL et un tableau d'éléments
+                            de script qui contiennent le code source des
+                            shaders. Elle compile les shaders et les relie en un
+                            programme, qui est ensuite retourné.
+                            <br><br>
+                            Une fois le programme créé, il est défini comme le
+                            programme actuel à utiliser avec la méthode
+                            <code> useProgram</code>. Les emplacements de
+                            l'attribut <code> "a_position"</code>
+                            et de l'uniforme <code> "u_worldViewProjection"</code>
+                            sont également obtenus à
+                            l'aide des méthodes <code>getAttribLocation</code>
+                            et
+                            <code> getUniformLocation</code>. Ces emplacements
+                            seront utilisés
+                            plus tard pour définir les valeurs de l'attribut et
+                            de l'uniforme dans le programme.</p>
+                        <pre>
+            <code class="language-javascript">
+    // Create a program from the vertex and fragment shader scripts
+    var program = webglUtils.createProgramFromScripts(
+        gl, ["2d-vertex-shader", "2d-fragment-shader"]);
+
+    // Use the created program
+    gl.useProgram(program);
+
+    // Get the locations of the "a_position" attribute and the "u_worldViewProjection" uniform
+    var positionLoc = gl.getAttribLocation(program, "a_position");
+    var worldViewProjectionLoc =
+        gl.getUniformLocation(program, "u_worldViewProjection");
+            </code>
+                        </pre>
+                        <p>La partie de code suivante crée un tampon (<code>buffer</code>)
+                            pour les
+                            sommets ( <code>vertices</code>) du carré et le lie
+                            au tampon de
+                            type ARRAY_BUFFER. Le tampon est utilisé pour
+                            stocker les coordonnées des sommets du carré et est
+                            lié à l'attribut de position dans le programme de
+                            shader.
+                            <br><br>
+                            Le tampon est créé à l'aide de la méthode
+                            <code>createBuffer</code>, puis lié au tampon de
+                            type
+                            ARRAY_BUFFER avec <code>bindBuffer</code>. Les
+                            coordonnées des
+                            sommets du carré sont ensuite stockées dans le
+                            tampon avec <code>bufferData</code>, et l'attribut
+                            de position
+                            est configuré avec <code>enableVertexAttribArray</code>
+                            et
+                            vertexAttribPointer.
+                            <br><br>
+                            La méthode <code>bufferData</code> prend en
+                            paramètres le type de
+                            tampon, les données à stocker dans le tampon (en
+                            l'occurrence les coordonnées des sommets du carré
+                            sous forme de tableau <code>Float32Array</code>), et
+                            le mode de
+                            dessin (en l'occurrence STATIC_DRAW, indiquant que
+                            les données ne vont pas être modifiées et seront
+                            utilisées pour dessiner des formes statiques).
+                            <br><br>
+                            La méthode <code>vertexAttribPointer</code> définit
+                            comment les
+                            données du tampon sont interprétées et utilisées par
+                            le shader. Elle prend en paramètres l'emplacement de
+                            l'attribut, le nombre de composantes par point (3
+                            pour les coordonnées x, y et z), le type de données
+                            (en l'occurrence des flottants), un booléen
+                            indiquant si les données doivent être normalisées ou
+                            non, et l'offset entre chaque point dans le tampon.</p>
+                        <pre>
+            <code class="language-javascript">
+    // Create a buffer for the square vertices and bind it to the ARRAY_BUFFER
+    var buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+    // Store the square vertices in the buffer and set up the position attribute
+    gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array(squareVertices),
+        gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(positionLoc);
+    gl.vertexAttribPointer(positionLoc, 3, gl.FLOAT, false, 0, 0);
+            </code>
+                        </pre>
+                        <p>On fait à peu de choses près la même chose pour les
+                            indices afin de pouvoir générer les triangles du
+                            carré.</p>
+                        <pre>
+            <code class="language-javascript">
+    // Create a buffer for the indices and bind it to the ELEMENT_ARRAY_BUFFER
+    var buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
+
+    // Store the indices in the buffer
+    gl.bufferData(
+        gl.ELEMENT_ARRAY_BUFFER,
+        new Uint16Array(indices),
+        gl.STATIC_DRAW);
+            </code>
+                        </pre>
+                        <p>
+                            On va maintenant créer la fonction a appeller pour
+                            générer le rendu dans le canvas grace a une fonction
+                            <code>render</code>.
+                            <br><br>
+                            La première étape consiste à redimensionner le
+                            <code>canvas</code> pour qu'il corresponde à la
+                            taille
+                            d'affichage souhaitée et à définir la zone du
+                            <code>canvas</code> qui sera utilisée pour dessiner
+                            le contenu de
+                            la scène (<code>viewport</code>). Cela est fait en
+                            appelant la fonction
+                            <code>webglUtils.resizeCanvasToDisplaySize</code> et
+                            en
+                            définissant la vue avec la méthode <code>gl.viewport</code>.
+                            <br><br>
+                            La deuxième étape consiste à effacer la couleur du
+                            <code>canvas</code> avec la couleur de fond
+                            souhaitée en
+                            appelant la méthode <code>gl.clear</code>.
+                            <br><br>
+                            Enfin, la troisième étape consiste à définir la
+                            matrice de projection qui détermine comment le
+                            contenu de la scène sera affiché sur le <code>canvas</code>.
+                            Dans
+                            ce cas, la matrice de projection est définie en
+                            utilisant la fonction m.perspective, qui prend en
+                            compte l'angle de vue, le rapport largeur/hauteur de
+                            le <code>canvas</code> et les distances minimale et
+                            maximale de la
+                            scène qui doivent être affichées. Cette matrice de
+                            projection est utilisée plus tard pour dessiner le
+                            contenu de la scène en utilisant un programme de
+                            shader.</p>
+                        <pre>
+            <code class="language-javascript">
+    function render() {
+        // Resize the canvas to match the display size and set the viewport
+        webglUtils.resizeCanvasToDisplaySize(gl.canvas, window.devicePixelRatio);
+        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+        // Clear the color buffer
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        // Set up the projection matrix
+        var fieldOfView = Math.PI * 0.25;
+        var aspect = canvas.clientWidth / canvas.clientHeight;
+        var projection = m.perspective(fieldOfView, aspect, 0.0001, 500);
+            </code>
+                        </pre>
+                        <p>
+                            On définit maintenant la matrice de vue, qui
+                            détermine comment la
+                            scène sera affichée à partir de la perspective de la
+                            caméra.
+
+                            La matrice de vue est définie en utilisant la
+                            fonction <code>m.lookAt</code>, qui prend en compte
+                            la position
+                            de la caméra (<code>eye</code>), le point vers
+                            lequel la caméra
+                            est tournée (<code>target</code>) et le vecteur
+                            "haut" de la
+                            caméra (up).
+
+                            Ensuite, la matrice de vue et la matrice de
+                            projection sont multipliées ensemble pour obtenir la
+                            matrice de projection de la vue du monde, qui
+                            détermine comment le contenu de la scène sera
+                            affiché sur le <code>canvas</code> en prenant en
+                            compte à la fois
+                            la perspective de la caméra et la manière dont la
+                            scène est mappée sur le <code>canvas</code>. Cette
+                            matrice de
+                            projection de la vue du monde est utilisée plus tard
+                            pour dessiner le contenu de la scène en utilisant un
+                            programme de shader.
+                        </p>
+                        <pre>
+            <code class="language-javascript">
+        // Set up the view matrix
+        var radius = 4;
+        var eye = [
+            0,
+            0,
+            -radius,
+        ];
+        var target = [0, 0, 0];
+        var up = [0, 1, 0];
+        var view = m.lookAt(eye, target, up);
+
+        // Multiply the view and projection matrices to get the world-view-projection matrix
+        var worldViewProjection = m.multiplyMatrix(view, projection);
+            </code>
+                        </pre>
+                        <p>
+                            Ce code utilise l'uniforme <code>u_worldViewProjection</code>
+                            du
+                            programme de shader en cours d'exécution pour
+                            définir la matrice de projection de la vue du monde
+                            à utiliser pour dessiner le contenu de la scène.
+                            <br><br>
+                            Ensuite, la fonction <code>gl.drawElements</code>
+                            est appelée
+                            pour dessiner les lignes de carré en utilisant les
+                            indices de vertex stockés dans le tampon d'indices.
+                            La constante <code>gl.LINES</code> indique au WebGL
+                            de dessiner
+                            des lignes en reliant les paires d'indices
+                            consécutifs. Le type de données utilisé pour les
+                            indices est spécifié avec <code>gl.UNSIGNED_SHORT</code>,
+                            et le
+                            dernier argument indique à quelle position dans le
+                            tampon d'indices commencer à lire les données.
+                        </p>
+                        <pre>
+            <code class="language-javascript">
+        // Set the world-view-projection matrix as the value of the "u_worldViewProjection" uniform
+        gl.uniformMatrix4fv(worldViewProjectionLoc, false, worldViewProjection);
+
+        // Draw the lines of the square using the indices
+        gl.drawElements(gl.LINES, indices.length, gl.UNSIGNED_SHORT, 0);
+    }
+            </code>
+                        </pre>
+                        <p>On peut maintenant appeler la methode render pour
+                            admirer notre carré, <a href="#exemples">admirez le</a></p>
+                        <pre>
+            <code class="language-javascript">
+    render();
+            </code>
+                            </pre>
+                    </div>
+
+
+                    <div>
+                        <h2 id="3d">Et ca vous dit la 3d ??</h2>
+                        <p>on veut passer ce carré en 3d, ca peut paraître
+                            complexe mais il suffit d'augmenter le nombre de
+                            sommets et d'indices:</p>
+                        <pre>
+    <code class="language-javascript">
+        var cubeVertices = [
+        // Nos quatres premiers points
+        -1, -1, -1,
+        1, -1, -1,
+        1, 1, -1,
+        -1, 1, -1,
+        // On les recules/avances sur un axe pour obtenir les nouvaux
+        -1, -1, 1,
+        1, -1, 1,
+        1, 1, 1,
+        -1, 1, 1,
+    ];
+        
+    // Define the indices for the vertices to form the lines of the cube
+    var indices = [
+    0, 1,
+    1, 2,
+    2, 3,
+    3, 0,
+    4, 5,
+    5, 6,
+    6, 7,
+    7, 4,
+    0, 4,
+    1, 5,
+    2, 6,
+    3, 7,
+    ];
+    </code>
+</pre>
+                        <p>Ça pourrait nous suffire mais on va ajouter de
+                            l'animation !
+                            <br><br>
+                            La fonction <code>requestAnimationFrame</code> va
+                            nous permettre de
+                            demander à la fenêtre du navigateur de mettre à jour
+                            l'affichage de la page dans le prochain cycle de
+                            rafraîchissement de l'écran.
+                            <br><br>
+                            Elle prend en argument la fonction <code>render</code>,
+                            ce qui signifie qu'elle sera appelée à chaque
+                            rafraîchissement de l'écran pour mettre à jour et
+                            redessiner le contenu de la scène. Cela permet de
+                            créer des animations en utilisant une boucle de
+                            rendu continue qui s'exécute en arrière-plan et qui
+                            est synchronisée avec la fréquence de
+                            rafraîchissement de l'écran.
+                        </p>
+                        <pre>
+                            <code class="language-javascript">
+    function render(clock) {
+        // Convert the elapsed time from milliseconds to seconds
+        clock *= 0.001;
+
+        // Resize the canvas to the display size (which is half the actual size)
+        webglUtils.resizeCanvasToDisplaySize(gl.canvas, window.devicePixelRatio);
+
+        // Set the viewport to cover the entire canvas
+        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+        // Clear the canvas with the background color, which is black in this case
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        // Set up the projection matrix for the camera
+        var fieldOfView = Math.PI * 0.25;
+        var aspect = canvas.clientWidth / canvas.clientHeight;
+        var projection = m.perspective(fieldOfView, aspect, 0.0001, 500);
+
+        // Set up the view matrix for the camera
+        var radius = 5;
+        var eye = [
+            Math.sin(clock) * radius,
+            1,
+            Math.cos(clock) * radius,
+        ];
+        var target = [0, 0, 0];
+        var up = [0, 1, 0];
+        var view = m.lookAt(eye, target, up);
+
+        // Multiply the view and projection matrices to get the world-view-projection matrix
+        var worldViewProjection = m.multiplyMatrix(view, projection);
+
+        // Set the world-view-projection matrix as the value of the "u_worldViewProjection" uniform
+        gl.uniformMatrix4fv(worldViewProjectionLoc, false, worldViewProjection);
+
+        // Draw the lines of the square using the indices
+        gl.drawElements(gl.LINES, indices.length, gl.UNSIGNED_SHORT, 0);
+
+        // Request the next frame of animation
+        requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
+                            </code>
+                        </pre>
+                        <p>On peut comparer, il n'a fallu changer que quelques
+                            variables pour obtenir un cube qui tourne sur lui
+                            même!</p>
+
+                        <div class="d-flex justify-content-center">
+                            <canvas id="cubeCanvas"></canvas>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="container" id="librairies">
+
+                    <h2>Des librairies WebGL !!!</h2>
+                    <div class="sub-title"> </div>
+                    <p>
+                        Il existe plusieurs frameworks disponibles pour créer
+                        des
+                        applications
+                        WebGL. Voici quelques exemples:
+                    </p>
+                    <ol>
+                        <li>
+                            Three.js : Three.js est une bibliothèque JavaScript
+                            populaire
+                            pour créer
+                            des graphiques 3D avec WebGL. Il fournit une API
+                            simple
+                            pour
+                            créer et
+                            manipuler des objets et des scènes 3D, ainsi qu'une
+                            prise en
+                            charge du
+                            chargement de modèles et d'animations 3D.
+                        </li>
+
+                        <div class="d-flex justify-content-center"><img
+                                src="images/0_oGyg1mbyXIHa3TIX.png"
+                                class="lib-logo" alt="WebGl-Logo"></div>
+                        <li>
+                            Babylon.js : Babylon.js est une autre bibliothèque
+                            JavaScript
+                            pour créer
+                            des graphiques 3D avec WebGL. Il comprend un large
+                            éventail
+                            de
+                            fonctionnalités, telles que la prise en charge de la
+                            physique,
+                            des
+                            matériaux avancés et des effets de post-traitement.
+                        </li>
+
+                        <div class="d-flex justify-content-center"><img
+                                src="images/babylonjs_identity_color.png"
+                                class="lib-logo"
+                                alt="WebGl-Logo"></div>
+                        <li>
+                            Pixi.js : Pixi.js est une bibliothèque JavaScript
+                            légère
+                            pour
+                            créer des
+                            graphiques 2D avec WebGL. Il est optimisé pour la
+                            création
+                            de
+                            jeux et
+                            d'autres applications interactives, et inclut la
+                            prise
+                            en
+                            charge
+                            des
+                            feuilles de sprite, des particules et d'autres
+                            fonctionnalités
+                            courantes
+                            de développement de jeux.
+                        </li>
+
+                        <div class="d-flex justify-content-center"><img
+                                src="images/téléchargement.png"
+                                class="lib-logo"
+                                alt="WebGl-Logo"></div>
+                        <li>
+                            PlayCanvas : PlayCanvas est une plate-forme basée
+                            sur le
+                            cloud
+                            pour
+                            créer des jeux et des applications 3D avec WebGL. Il
+                            comprend un
+                            éditeur
+                            visuel, des outils de gestion des actifs et un
+                            moteur de
+                            jeu
+                            intégré.
+                        </li>
+
+                        <div class="d-flex justify-content-center"><img
+                                src="images/68747470733a2f2f73332d65752d776573742d312e616d617a6f6e6177732e636f6d2f7374617469632e706c617963616e7661732e636f6d2f706c6174666f726d2f696d616765732f6c6f676f2f706c617963616e7661732d6c6f676f2d6d6.png"
+                                class="lib-logo"
+                                alt="WebGl-Logo"></div>
+                        <li>
+                            Turbulenz : Turbulenz est un moteur de jeu
+                            multiplateforme
+                            qui
+                            utilise
+                            WebGL pour le rendu. Il inclut la prise en charge de
+                            la
+                            création
+                            de jeux
+                            2D et 3D, ainsi qu'une gamme d'outils et de
+                            bibliothèques
+                            pour
+                            le
+                            développement de jeux.
+                        </li>
+
+                        <div class="d-flex justify-content-center"><img
+                                src="images/Turbulenz-logo.png"
+                                class="lib-logo"
+                                alt="WebGl-Logo"></div>
+                    </ol>
+                    <p>
+                        Pour ma part, j’ai déjà utilisé Three.js sur un projet
+                        personnel,
+                        pour vous faire
+                        une démonstration, voici le code pour un cube vert:
+                    </p>
+                </div>
+
+                <div class="container" id="WebGPU">
+
+                    <h2>Un concurrent à WebGL ??!!</h2>
+                    <div class="sub-title"> </div>
+                    <div class="d-flex justify-content-center"><img
+                            src="images/118553724-8cd68f80-b715-11eb-880e-0ef7f20bc4a2.png"
+                            alt="WebGl-Logo"></div>
+                    <p>
+                        WebGPU est une API graphique 3D (encore) de bas niveau,
+                        accélérée
+                        par le
+                        matériel, conçue pour être utilisée dans les navigateurs
+                        Web. Il
+                        est
+                        basé sur le matériel GPU (Graphics Processing Unit)
+                        existant
+                        dans
+                        les
+                        ordinateurs modernes et permet d'accéder à toute la
+                        puissance du
+                        GPU
+                        à
+                        partir d'un navigateur Web.
+                    </p>
+                    <p>
+                        Comme OpenGL et WebGL, WebGPU permet aux programmeurs de
+                        spécifier
+                        les
+                        objets et les opérations nécessaires pour produire une
+                        image
+                        finale,
+                        qui
+                        est ensuite rendue par le GPU de l'ordinateur.
+                        Cependant,
+                        contrairement
+                        à ces autres API, qui sont conçues pour être
+                        indépendantes
+                        du
+                        matériel
+                        sous-jacent, WebGPU est conçu pour tirer pleinement
+                        parti
+                        des
+                        capacités
+                        du GPU. Cela signifie qu'il peut être utilisé pour créer
+                        des
+                        graphiques
+                        et des visualisations de très haute qualité qui sont
+                        beaucoup
+                        plus
+                        détaillés et complexes que ceux créés à l'aide d'autres
+                        API
+                        graphiques
+                        Web.
+                    </p>
+                    <p>
+                        L'une des principales différences entre WebGPU et les
+                        autres
+                        API
+                        graphiques est qu'il s'agit d'une API de bas niveau, ce
+                        qui
+                        signifie
+                        qu'elle offre beaucoup de contrôle sur le GPU, mais
+                        nécessite
+                        également
+                        plus de travail de la part du programmeur. Cela en fait
+                        un
+                        bon
+                        choix
+                        pour les programmeurs graphiques expérimentés qui ont
+                        besoin
+                        de
+                        créer
+                        des graphiques et des visualisations de très haute
+                        qualité,
+                        mais
+                        qui
+                        peuvent ne pas convenir aux débutants.
+                    </p>
+                    <p>
+                        Dans l'ensemble, WebGPU est un outil puissant pour créer
+                        des
+                        graphiques
+                        et des visualisations 3D de haute qualité pouvant être
+                        affichés
+                        dans
+                        un
+                        navigateur Web. Il est basé sur le matériel GPU existant
+                        dans
+                        les
+                        ordinateurs modernes et donne accès à toute la puissance
+                        du
+                        GPU
+                        à
+                        partir
+                        d'un navigateur Web, ce qui en fait un outil utile pour
+                        créer
+                        une
+                        large
+                        gamme de visualisations et de graphiques interactifs
+                        pour le
+                        Web.
+                    </p>
+                    <p>
+                        Trois différences notables entre WebGL et WebGPU :
+                    </p>
+                    <ol>
+                        <li>
+                            Niveau d'abstraction : WebGL est une API de niveau
+                            supérieur
+                            à
+                            WebGPU,
+                            ce qui signifie qu'elle est plus facile à utiliser
+                            mais
+                            offre
+                            moins de
+                            contrôle sur le GPU. WebGPU est une API de niveau
+                            inférieur,
+                            ce
+                            qui
+                            signifie qu'elle nécessite plus de travail de la
+                            part du
+                            programmeur
+                            mais offre plus de contrôle sur le GPU.
+                        </li>
+                        <li>
+                            Compatibilité : WebGL est pris en charge par une
+                            large
+                            gamme
+                            de
+                            navigateurs Web, y compris tous les principaux
+                            navigateurs
+                            de
+                            bureau et
+                            de nombreux navigateurs mobiles. WebGPU n'est
+                            actuellement
+                            pris
+                            en
+                            charge que par un nombre limité de versions
+                            expérimentales
+                            de
+                            navigateurs Web.
+                        </li>
+                        <li>
+                            Performances : WebGPU est conçu pour tirer
+                            pleinement
+                            parti
+                            des
+                            capacités du GPU, ce qui signifie qu'il peut être
+                            utilisé
+                            pour
+                            créer des
+                            graphiques et des visualisations de très haute
+                            qualité,
+                            beaucoup
+                            plus
+                            détaillés et complexes que ceux créés à l'aide de
+                            WebGL.
+                            Cependant, cela
+                            signifie également qu'il peut ne pas être aussi
+                            efficace
+                            que
+                            WebGL dans
+                            certains cas, en fonction de la charge de travail
+                            matérielle
+                            et
+                            graphique spécifique.
+                        </li>
+                    </ol>
+                    <p>Pour le moment WebGL reste le plus utilisé mais les
+                        avantages de performances proposés par WebGPU pourrait
+                        changer ce monopole </p>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+</html>
